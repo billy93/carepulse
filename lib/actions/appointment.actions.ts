@@ -135,7 +135,8 @@ export const updateAppointment = async ({
     if (!updatedAppointment) throw Error;
 
     const smsMessage = `Greetings from CarePulse. ${type === "schedule" ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!).dateTime} is cancelled. Reason:  ${appointment.cancellationReason}`}.`;
-    await sendSMSNotification(userId, smsMessage);
+    console.log(smsMessage)
+    //await sendSMSNotification(userId, smsMessage);
 
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);

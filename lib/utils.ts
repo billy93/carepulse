@@ -11,6 +11,7 @@ export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 
 // FORMAT DATE TIME
 export const formatDateTime = (dateString: Date | string, timeZone: string = Intl.DateTimeFormat().resolvedOptions().timeZone) => {
+  console.log("timezone : ", timeZone)
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     // weekday: "short", // abbreviated weekday name (e.g., 'Mon')
     month: "short", // abbreviated month name (e.g., 'Oct')
@@ -41,6 +42,7 @@ export const formatDateTime = (dateString: Date | string, timeZone: string = Int
     hour: "numeric", // numeric hour (e.g., '8')
     minute: "numeric", // numeric minute (e.g., '30')
     hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
+    timeZone: timeZone
   };
 
   const formattedDateTime: string = new Date(dateString).toLocaleString(
