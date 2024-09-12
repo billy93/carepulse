@@ -21,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { Form } from "../ui/form";
+import emailjs from '@emailjs/browser';
 
 export const AppointmentForm = ({
   userId,
@@ -52,6 +53,22 @@ export const AppointmentForm = ({
       cancellationReason: appointment?.cancellationReason || "",
     },
   });
+
+  const sendEmailNotification = async (content: string) => {
+    await emailjs
+        .send(
+          process.env.NEXT_PUBLIC_SERVICEID || "",
+          process.env.NEXT_PUBLIC_TEMPLATEID || "",
+          {
+            from_name: "Billy",
+            from_email: "billyfebram@gmail.com",
+            to_name: 'Billy Test',
+            to_email: 'billyfebram@gmail.com',
+            message: content,
+          },
+          process.env.NEXT_PUBLIC_APIKEY
+        )
+  }
 
   const onSubmit = async (
     values: z.infer<typeof AppointmentFormValidation>
@@ -111,6 +128,9 @@ export const AppointmentForm = ({
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
 
         if (updatedAppointment) {
+          const message = `Greetings from CarePulse. ${type === "schedule" ? `Your appointment is confirmed` : `We regret to inform that your appointment is cancelled. Reason:  ${values.cancellationReason}`}.`;
+          await sendEmailNotification(message);
+
           setOpen && setOpen(false);
           form.reset();
         }

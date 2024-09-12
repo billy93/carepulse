@@ -13,7 +13,7 @@ const SubmitButton = ({isLoading, className, children} : ButtonProps) => {
   return (
     <Button type="submit" disabled={isLoading} className={className ?? 'shad-primary-btn w-full'}>
         {isLoading ? (
-            <div className='fkex items-center gap-4'>
+            <div className='flex items-center gap-4'>
                 <Image
                 src="/assets/icons/loader.svg"
                 alt="loader"
