@@ -91,6 +91,7 @@ export const getRecentAppointmentList = async () => {
       documents: appointments.documents,
     };
 
+    revalidatePath('/admin')
     return parseStringify(data);
   } catch (error) {
     console.error(
@@ -155,6 +156,7 @@ export const getAppointment = async (appointmentId: string) => {
       appointmentId
     );
 
+    revalidatePath('/admin')
     return parseStringify(appointment);
   } catch (error) {
     console.error(

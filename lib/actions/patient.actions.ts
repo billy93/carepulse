@@ -1,7 +1,7 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-
+import { revalidatePath } from 'next/cache'
 import {
   BUCKET_ID,
   DATABASE_ID,
@@ -27,6 +27,7 @@ export const createUser = async (user: CreateUserParams) => {
       user.name
     );
 
+    revalidatePath('/')
     return parseStringify(newuser);
   } catch (error: any) {
     // Check existing user
@@ -45,7 +46,7 @@ export const createUser = async (user: CreateUserParams) => {
 export const getUser = async (userId: string) => {
   try {
     const user = await users.get(userId);
-
+    revalidatePath('/')
     return parseStringify(user);
   } catch (error) {
     console.error(
@@ -87,7 +88,7 @@ export const registerPatient = async ({
         ...patient,
       }
     );
-
+    revalidatePath('/')
     return parseStringify(newPatient);
   } catch (error) {
     console.error("An error occurred while creating a new patient:", error);
@@ -102,7 +103,7 @@ export const getPatient = async (userId: string) => {
       PATIENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
-
+    revalidatePath('/')
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(
